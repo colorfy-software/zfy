@@ -29,7 +29,10 @@
     "management",
     "store"
   ],
-  "repository": "https://github.com/colorfy-software/zfy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colorfy-software/zfy.git"
+  },
   "author": "Charles Mangwa <charlesmangwa@gmail.com> (https://github.com/CharlesMangwa)",
   "license": "MIT",
   "bugs": {
@@ -37,6 +40,7 @@
   },
   "homepage": "https://github.com/colorfy-software/zfy#readme",
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
@@ -155,5 +159,9 @@
   },
   "dependencies": {
     "zustand": "^3.4.1"
+  },
+  "directories": {
+    "example": "example",
+    "lib": "lib"
   }
 }
