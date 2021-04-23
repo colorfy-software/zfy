@@ -1,0 +1,16 @@
+{
+  "name": "zfy-example",
+  "displayName": "Zfy Example",
+  "expo": {
+    "name": "zfy-example",
+    "slug": "zfy-example",
+    "description": "Example app for @colorfy-software/zfy",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
+}
