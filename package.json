@@ -1,6 +1,6 @@
 {
   "name": "@colorfy-software/zfy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Useful helpers for state management in React with zustand",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
