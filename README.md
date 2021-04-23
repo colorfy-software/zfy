@@ -55,6 +55,31 @@ import {
   useRehydrate,
   PersistGate,
 } from "@colorfy-software/zfy";
+
+// 1. Initialize the library.
+initZfy({
+  storage: AsyncStorage,
+  persistKey: 'myAppPersistKey',
+})
+
+// 2. Create a store.
+const userStore = createStore('user', { firstName: 'User' }, { persist: { lazyRehydration: true }})
+
+// 3. Use the store inside your components.
+const Component = (): JSX.Element => {
+  const firstName = userStore(({ data }) => data.firstName)
+}
+
+// 4. Or use it outside of React.
+const userName = userStore.getState().data.firstName
+
+// 5. Update it from wherever.
+userStore.getState().update((user) => {
+  user.data.firstName = 'Teddy'
+})
+
+// 6. And reset it all when you're done.
+userStore.getState().reset()
 ```
 
 
