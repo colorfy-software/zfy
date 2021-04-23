@@ -24,10 +24,9 @@ describe('🚀 Core > initZfy():', () => {
 
   it('updates the default config when partial params are provided', () => {
     const initialConfig = getConfig()
-
-    initZfy({ enableLogging: true })
-
     const expectedConfig = { ...defaultConfig, enableLogging: true }
+
+    initZfy(expectedConfig)
 
     expect(initialConfig).not.toStrictEqual(expectedConfig)
     expect(getConfig()).toStrictEqual(expectedConfig)

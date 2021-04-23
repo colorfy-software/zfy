@@ -9,12 +9,11 @@ describe('🧠 Internals > config:', () => {
 
   it('setConfig() updates the default config', () => {
     const initialConfig = getConfig()
-
-    setConfig({ enableLogging: true })
-
     const expectedConfig = { ...defaultConfig, enableLogging: true }
 
-    expect(initialConfig).not.toStrictEqual(expectedConfig)
+    setConfig(expectedConfig)
+
+    expect(expectedConfig).not.toStrictEqual(initialConfig)
     expect(getConfig()).toStrictEqual(expectedConfig)
 
     expect.assertions(2)
