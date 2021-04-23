@@ -13,7 +13,7 @@
     <img src="https://github.com/colorfy-software/zfy/workflows/Test%20Suite/badge.svg?branch=main" alt="Current GitHub Actions build status" />
   </a>
   <a href="https://www.npmjs.org/package/@colorfy-software/zfy" target="_blank" rel="noopener noreferrer">
-    <img src="https://badge.fury.io/js/%40colorfy-software%2Fzfy.svg" alt="Current npm package version" />
+    <img src="https://badge.fury.io/js/%40colorfy-software%2Fzfy.svg" alt="npm version" height="18"/>
   </a>
   <a href="https://www.npmjs.org/package/@colorfy-software/zfy" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/npm/dm/@colorfy-software/zfy.svg?maxAge=2592000" alt="Monthly npm downloads" />
