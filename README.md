@@ -42,10 +42,8 @@ made it so easy to deal with immutability.
 
 # 🏗️ Installation
 
-Install the library & its dependencies:
-
 ```sh
-yarn add @colorfy-software/zfy zustand immer
+yarn add @colorfy-software/zfy
 ```
 
 # 💻 Usage
