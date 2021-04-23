@@ -1,6 +1,11 @@
 import type { ZfyConfigType } from '../types'
 
 let config: Partial<ZfyConfigType> = {
+  persistKey: 'defaultPersistKey',
+  storage: {
+    getItem: () => null,
+    setItem: () => null,
+  },
   serialize: JSON.stringify,
   deserialize: JSON.parse,
 }
