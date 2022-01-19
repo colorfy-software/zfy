@@ -103,9 +103,7 @@ export function validateCreateStore<
   invariant(
     !options ||
       (typeof options === 'object' && options.persist === undefined) ||
-      (typeof options === 'object' &&
-        typeof options.persist === 'object' &&
-        typeof options.persist?.lazyRehydration === 'boolean'),
-    `You need to provide a boolean to ${name}'s createStore() options.persist.lazyRehydration.`
+      (typeof options === 'object' && typeof options.persist === 'boolean'),
+    `You need to provide a boolean to ${name}'s createStore() options.persist.`
   )
 }

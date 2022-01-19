@@ -49,7 +49,7 @@ export interface CreateStoreOptionsType<
   StoreNameType extends keyof StoresDataType
 > {
   log?: boolean
-  persist?: { lazyRehydration: boolean }
+  persist?: boolean
   customMiddlewares?: ZfyMiddlewareType<StoresDataType, StoreNameType>[]
 }
 

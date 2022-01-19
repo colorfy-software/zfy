@@ -7,3 +7,5 @@ exports[`🚧 Core > PersistGate: renders correctly 1`] = `
   </Text>
 </View>
 `;
+
+exports[`🚧 Core > PersistGate: renders loader during rehydration then renders children 1`] = `null`;

@@ -23,7 +23,7 @@ export const assertStoreContent = ({
   expect.assertions(assertions)
 }
 
-export const assertLazyStoreRehydration = ({
+export const assertStoreRehydration = ({
   store,
   onRehydrate,
 }: {

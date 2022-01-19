@@ -1,4 +1,5 @@
 import React from 'react'
+import { Text, View } from 'react-native'
 import { render, waitFor } from '@testing-library/react-native'
 
 import {
@@ -10,7 +11,6 @@ import {
 import initZfy from '../../core/init-zfy'
 import PersistGate from '../../core/PersistGate'
 import createStore from '../../core/create-store'
-import { Text, View } from 'react-native'
 
 describe('🚧 Core > PersistGate:', () => {
   beforeAll(() => {
@@ -22,11 +22,11 @@ describe('🚧 Core > PersistGate:', () => {
 
   it('renders correctly', async () => {
     const loader = jest.fn()
-    const store = createStore('jest', data)
+    const stores = { jest: createStore('jest', data) }
 
     const { toJSON } = await waitFor(() =>
       render(
-        <PersistGate stores={{ jest: store }} loader={loader}>
+        <PersistGate stores={stores} loader={loader}>
           <View>
             <Text>My App</Text>
           </View>
@@ -35,7 +35,7 @@ describe('🚧 Core > PersistGate:', () => {
     )
 
     expect(toJSON()).toMatchSnapshot()
-    expect(loader).toHaveBeenCalledTimes(1)
+    expect(loader).toHaveBeenCalled()
 
     expect.assertions(2)
   })
@@ -43,25 +43,21 @@ describe('🚧 Core > PersistGate:', () => {
   it('renders loader during rehydration then renders children', async () => {
     const loader = jest.fn()
     const children = jest.fn()
-
     const store = createStore('jest', data)
 
-    await waitFor(() => {
+    const { toJSON } = await waitFor(() =>
       render(
         <PersistGate stores={{ jest: store }} loader={loader}>
           {children}
         </PersistGate>
       )
+    )
 
-      expect(loader).toHaveBeenCalledTimes(1)
-      expect(children).not.toHaveBeenCalled()
-      assertStoreContent({ store, expectedData: data })
-    })
-
-    expect(loader).toHaveBeenCalledTimes(1)
-    expect(children).toHaveBeenCalledTimes(1)
+    expect(loader).toHaveBeenCalled()
+    expect(children).toHaveBeenCalled()
     assertStoreContent({ store, expectedData: rehydratedData })
+    expect(toJSON()).toMatchSnapshot()
 
-    expect.assertions(14)
+    expect.assertions(8)
   })
 })

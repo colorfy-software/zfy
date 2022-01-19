@@ -34,11 +34,10 @@ made it so easy to deal with immutability.
 
 * Fully typed with TypeScript
 * Harmonized access/update API 
+* Simple API for store creation with custom middlewares
 * Logger & persistence middlewares provided out-of-the-box
 * Easy-to-use persist gate component & rehydration hook
-* Support for lazy and eager store rehydration
 * Persistence compatible with any storage library
-* Simple API for store creation with custom middlewares
 
 # 🏗️ Installation
 
@@ -63,7 +62,7 @@ initZfy({
 })
 
 // 2. Create a store.
-const userStore = createStore('user', { firstName: 'User' }, { persist: { lazyRehydration: true }})
+const userStore = createStore('user', { firstName: 'User' }, { persist: true })
 
 // 3. Use the store inside your components.
 const Component = (): JSX.Element => {
@@ -153,7 +152,7 @@ userStore.getState().reset()
 
   export default createStore<StoresDataType, 'user'>('user', initialState, {
     log: true,
-    persist: { lazyRehydration: true },
+    persist: true,
   })
   ```
 
@@ -300,9 +299,6 @@ the points covered below will prevent Zfy from showcasing its full potential (an
   > **Any
   store created with Zfy always exposes the same 4 elements from the `getState()` object**: **`data`**, **`rehydrate()`**,
   **`update()`** & **`reset()`**.
-
-  *If you're using persistence with lazy rehydration explicitly, `isRehydrated` is added as the 5th one but is mainly
-  used by Zfy rehydration tools.*
 
   By  this logic, accessing your data will always look the
   same. Eg:

@@ -5,7 +5,7 @@ import {
   rehydratedData,
   persistentStorage,
   assertStoreContent,
-  assertLazyStoreRehydration,
+  assertStoreRehydration,
 } from '../helpers'
 import initZfy from '../../core/init-zfy'
 import createStore from '../../core/create-store'
@@ -17,13 +17,11 @@ describe('📌 Internals > persistMiddleware():', () => {
       persistKey: 'appPersistKey',
     })
 
-    const store = createStore('jest1', data, {
-      persist: { lazyRehydration: true },
-    })
+    const store = createStore('jest1', data, { persist: true })
 
     const dataUpdate = { file: 'updated' }
 
-    return assertLazyStoreRehydration({
+    assertStoreRehydration({
       store,
       onRehydrate: async () => {
         assertStoreContent({
@@ -54,13 +52,11 @@ describe('📌 Internals > persistMiddleware():', () => {
       persistKey: 'appPersistKey',
     })
 
-    const store = createStore('jest2', data, {
-      persist: { lazyRehydration: true },
-    })
+    const store = createStore('jest2', data, { persist: true })
 
     const dataUpdate = { file: 'updated' }
 
-    return assertLazyStoreRehydration({
+    assertStoreRehydration({
       store,
       onRehydrate: async () => {
         assertStoreContent({
@@ -89,13 +85,11 @@ describe('📌 Internals > persistMiddleware():', () => {
       persistKey: 'appPersistKey',
     })
 
-    const store = createStore('jest3', data, {
-      persist: { lazyRehydration: true },
-    })
+    const store = createStore('jest3', data, { persist: true })
 
     const dataUpdate = { file: 'updated' }
 
-    return assertLazyStoreRehydration({
+    assertStoreRehydration({
       store,
       onRehydrate: async () => {
         assertStoreContent({
@@ -126,13 +120,11 @@ describe('📌 Internals > persistMiddleware():', () => {
       persistKey: 'appPersistKey',
     })
 
-    const store = createStore('jest4', data, {
-      persist: { lazyRehydration: true },
-    })
+    const store = createStore('jest4', data, { persist: true })
 
     const dataUpdate = { file: 'updated' }
 
-    return assertLazyStoreRehydration({
+    assertStoreRehydration({
       store,
       onRehydrate: async () => {
         assertStoreContent({

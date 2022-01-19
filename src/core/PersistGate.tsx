@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 
 import type { CreateStoreType } from '../types'
 
@@ -41,4 +41,4 @@ const PersistGate = <StoresType extends Record<string, CreateStoreType<any>>>({
   )
 }
 
-export default PersistGate
+export default memo(PersistGate)

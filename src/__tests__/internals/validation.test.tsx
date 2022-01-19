@@ -41,18 +41,14 @@ describe('🚦 Internals > validation:', () => {
     initZfy({
       storage: SyncStorage,
     })
-    expect(() =>
-      createStore('store', 0, { persist: { lazyRehydration: true } })
-    ).toThrowError(
+    expect(() => createStore('store', 0, { persist: true })).toThrowError(
       "You need to provide a 'persistKey' to initZfy() configuration object."
     )
 
     initZfy({
       persistKey: 'appPersistKey',
     })
-    expect(() =>
-      createStore('store', 0, { persist: { lazyRehydration: true } })
-    ).toThrowError(
+    expect(() => createStore('store', 0, { persist: true })).toThrowError(
       "You need to provide a 'storage' to initZfy() configuration object."
     )
 
@@ -61,9 +57,7 @@ describe('🚦 Internals > validation:', () => {
       storage: { ...SyncStorage, getItem: true },
       persistKey: 'appPersistKey',
     })
-    expect(() =>
-      createStore('store', 0, { persist: { lazyRehydration: true } })
-    ).toThrowError(
+    expect(() => createStore('store', 0, { persist: true })).toThrowError(
       "The 'storage' you provided to initZfy() configuration object needs to provide a 'getItem' function."
     )
 
@@ -72,9 +66,7 @@ describe('🚦 Internals > validation:', () => {
       storage: { ...SyncStorage, setItem: true },
       persistKey: 'appPersistKey',
     })
-    expect(() =>
-      createStore('store', 0, { persist: { lazyRehydration: true } })
-    ).toThrowError(
+    expect(() => createStore('store', 0, { persist: true })).toThrowError(
       "The 'storage' you provided to initZfy() configuration object needs to provide a 'setItem' function."
     )
 
@@ -117,15 +109,9 @@ describe('🚦 Internals > validation:', () => {
 
     // @ts-expect-error
     expect(() => createStore('jest', {}, { persist: null })).toThrowError(
-      "You need to provide a boolean to jest's createStore() options.persist.lazyRehydration."
-    )
-    expect(() =>
-      // @ts-expect-error
-      createStore('jest', {}, { persist: { lazyRehydration: null } })
-    ).toThrowError(
-      "You need to provide a boolean to jest's createStore() options.persist.lazyRehydration."
+      "You need to provide a boolean to jest's createStore() options.persist."
     )
 
-    expect.assertions(5)
+    expect.assertions(4)
   })
 })
