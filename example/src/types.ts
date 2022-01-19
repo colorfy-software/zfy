@@ -1,18 +1,30 @@
-import type { CreateStoreType } from '@colorfy-software/zfy'
+export type StoresNameType = keyof StoresDataType
 
-export type CounterType = number
+/**********************************
+ *
+ *              APP
+ *
+ **********************************/
 
-export interface UserType {
-  ID: string
-  totalCounter: number
+export interface AppType {
+  pushPermissions?: boolean
+  isFirstDisplayOfHome?: boolean
+  navigationState: 'auth' | 'app'
 }
 
-export interface StoresType {
-  counter: CreateStoreType<CounterType>
-  user: CreateStoreType<UserType>
+/**********************************
+ *
+ *             USER
+ *
+ **********************************/
+
+export interface UserType {
+  firstName?: string
+  lastName?: string
+  UID?: string
 }
 
 export interface StoresDataType {
-  counter: CounterType
+  app: AppType
   user: UserType
 }
