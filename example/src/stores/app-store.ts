@@ -13,10 +13,18 @@ export default createStore<StoresDataType, 'app'>('app', initialState, {
   log: true,
   persist: {
     name: 'app',
-    onRehydrateStorage: (state) =>
-      console.debug(
-        `💧 App rehydration:  ${JSON.stringify(state?.data, null, 2)}`
-      ),
+    onRehydrateStorage: () => {
+      console.debug('💧 App rehydration started')
+      return (state, error) => {
+        if (error) {
+          console.debug('❌ App rehydration error', error)
+        } else {
+          console.debug(
+            `💧 App rehydration done:  ${JSON.stringify(state.data, null, 2)}`
+          )
+        }
+      }
+    },
     getStorage: () => ({
       getItem: (name) => storage.getString(name) ?? null,
       setItem: async (name, value) => storage.set(name, value),

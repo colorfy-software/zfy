@@ -2,8 +2,8 @@ import React from 'react'
 import { PersistGate } from '@colorfy-software/zfy'
 import { StyleSheet, SafeAreaView, Text } from 'react-native'
 
-import appStore from './stores/app-store'
-import userStore from './stores/user-store'
+import app from './stores/app-store'
+import user from './stores/user-store'
 
 import Info from './Info'
 
@@ -18,10 +18,7 @@ const Loader = () => {
 
 export default function App() {
   return (
-    <PersistGate
-      loader={<Loader />}
-      stores={{ app: appStore, user: userStore }}
-    >
+    <PersistGate loader={<Loader />} stores={[app, user]}>
       <Info />
     </PersistGate>
   )

@@ -13,11 +13,11 @@ interface PropsType<StoresType> {
 
 /**
  * Component that renders a loader while all the provided persisted stores get rehydrated.
- * @prop stores - `Record<string, CreateStoreType<any>>`— Object containing all the zustand stores to rehydrate.
+ * @prop stores - `Array<CreateStoreType<any, any>>`— Array containing all the zustand stores to rehydrate.
  * @prop children - `JSX.Element | JSX.Element[]`— React element to render once rehydration is completed.
  * @prop loader - `JSX.Element`— Optional. Loader component to display.
  */
-const PersistGate = <StoresType extends Record<string, CreateStoreType<any>>>({
+const PersistGate = <StoresType extends CreateStoreType<any, any>[]>({
   stores,
   loader,
   children,

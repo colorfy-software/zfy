@@ -6,13 +6,13 @@ import { validateUseRehydrate } from '../internals/validations'
 
 /**
  * Hooks that rehydrates persisted stores on app launch.
- * @param stores - `Record<string, CreateStoreType<any>>`— Object containing zustand stores to rehydrate.
+ * @param stores - `Array<CreateStoreType<any, any>>`— Array containing all the zustand stores to rehydrate.
  * @returns `boolean`— A boolean indicating whether rehydration process is done.
  */
-export default function <
-  StoresType extends Record<string, CreateStoreType<any>>
->(stores: StoresType): boolean {
-  const storesNames = Object.keys(stores || {})
+export default function <StoresType extends CreateStoreType<any, any>[]>(
+  stores: StoresType
+): boolean {
+  const storesNames = stores.map((store) => store.getState().name)
   const [isRehydrated, setIsRehydrated] = useState(false)
 
   useEffect(() => {
@@ -23,8 +23,10 @@ export default function <
     ;(async () => {
       if (isRehydrated) return
 
-      for (const name of storesNames) {
-        await stores[name]?.persist?.rehydrate?.()
+      for (let index = 0; index < storesNames.length; index += 1) {
+        const name = storesNames[index]
+
+        await stores[index]?.persist?.rehydrate?.()
 
         if (storesNames.indexOf(name) === storesNames.length - 1) {
           setIsRehydrated(true)
