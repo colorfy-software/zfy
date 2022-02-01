@@ -14,9 +14,9 @@
   ],
   "scripts": {
     "test": "jest --updateSnapshot --verbose",
-    "typescript": "tsc --noEmit",
+    "type": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "pre-commit": "yarn lint && yarn typescript && yarn test",
+    "pre-commit": "yarn lint && yarn type && yarn test",
     "prepare": "bob build && husky install",
     "release": "release-it",
     "example": "yarn --cwd example",

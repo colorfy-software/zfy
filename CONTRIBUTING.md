@@ -38,11 +38,11 @@ To run the example app on Web:
 yarn example web
 ```
 
-Make sure your code passes TypeScript and ESLint. Run the following to verify:
+Make sure your code passes ESLint and TypeScript. Run the following to verify:
 
 ```sh
-yarn typescript
 yarn lint
+yarn type
 ```
 
 To fix formatting errors, run the following:
@@ -93,7 +93,7 @@ yarn release
 The `package.json` file contains various scripts for common tasks:
 
 - `yarn bootstrap`: setup project by installing all dependencies and pods.
-- `yarn typescript`: type-check files with TypeScript.
+- `yarn type`: type-check files with TypeScript.
 - `yarn lint`: lint files with ESLint.
 - `yarn test`: run unit tests with Jest.
 - `yarn example start`: start the Metro server for the example app.

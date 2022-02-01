@@ -64,7 +64,7 @@ jobs:
 
       - name: Run type checker
         run: |
-          yarn typescript
+          yarn type
         id: type
 
   test:
