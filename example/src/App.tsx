@@ -1,10 +1,29 @@
-import { StyleSheet, View, Text } from 'react-native'
+import React from 'react'
+import { PersistGate } from '@colorfy-software/zfy'
+import { StyleSheet, SafeAreaView, Text } from 'react-native'
+
+import appStore from './stores/app-store'
+import userStore from './stores/user-store'
+
+import Info from './Info'
+
+const Loader = () => {
+  console.debug('💬 Loading...')
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.text}>Loading...</Text>
+    </SafeAreaView>
+  )
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Result</Text>
-    </View>
+    <PersistGate
+      loader={<Loader />}
+      stores={{ app: appStore, user: userStore }}
+    >
+      <Info />
+    </PersistGate>
   )
 }
 
@@ -14,9 +33,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  text: {
+    fontSize: 69,
+    fontWeight: 'bold',
   },
 })

@@ -7,9 +7,7 @@ export type StoresNameType = keyof StoresDataType
  **********************************/
 
 export interface AppType {
-  pushPermissions?: boolean
-  isFirstDisplayOfHome?: boolean
-  navigationState: 'auth' | 'app'
+  backgroundColor: string
 }
 
 /**********************************
@@ -19,9 +17,7 @@ export interface AppType {
  **********************************/
 
 export interface UserType {
-  firstName?: string
-  lastName?: string
-  UID?: string
+  name: string
 }
 
 export interface StoresDataType {
