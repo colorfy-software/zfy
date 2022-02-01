@@ -1,13 +1,17 @@
-import type { CreateStoreConfigType, StoreType } from '../../types'
-import { getConfig } from '../config'
+import type {
+  StoreType,
+  CreateStoreConfigType,
+  CreateStoreOptionsType,
+} from '../../types'
 
-const logger =
+const middleware =
   <
     StoresDataType extends Record<string, any>,
     StoreNameType extends keyof StoresDataType
   >(
-    store: StoreNameType,
-    config: CreateStoreConfigType<StoresDataType[StoreNameType]>
+    storeName: StoreNameType,
+    config: CreateStoreConfigType<StoresDataType[StoreNameType]>,
+    options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
   ): CreateStoreConfigType<StoresDataType[StoreNameType]> =>
   (set, get, api): StoreType<StoresDataType[StoreNameType]> =>
     config(
@@ -17,20 +21,26 @@ const logger =
 
         set(args)
 
-        if (getConfig().enableLogging) {
+        if (options?.log) {
           const newState = get().data
 
           console.group(
-            `%c🗂 ${store.toLocaleString().toLocaleUpperCase()} STORE UPDATED`,
+            `%c🗂 ${storeName
+              .toLocaleString()
+              .toLocaleUpperCase()} STORE UPDATED`,
             'font-weight:bold'
           )
-          console.log(
+          console.debug(
             '%cprevState',
             'font-weight:bold; color: #9E9E9E',
             prevState
           )
-          console.log('%cpayload', 'font-weight:bold; color: #27A3F7', payload)
-          console.log(
+          console.debug(
+            '%cpayload',
+            'font-weight:bold; color: #27A3F7',
+            (payload as StoreType<StoresDataType[StoreNameType]>).data
+          )
+          console.debug(
             '%cnewState',
             'font-weight:bold; color: #C6E40A',
             newState
@@ -42,4 +52,4 @@ const logger =
       api
     )
 
-export default logger
+export default middleware

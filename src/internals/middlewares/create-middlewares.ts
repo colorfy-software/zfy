@@ -7,12 +7,13 @@ import type {
 import logger from './logger-middleware'
 import persist from './persist-middleware'
 
-import { validateConfigForPersistence } from '../validation'
+import { validateOptionsForPersistence } from '../validations'
 
 const createMiddleware = <
   StoresDataType extends Record<string, any>,
   StoreNameType extends keyof StoresDataType = keyof StoresDataType
 >(
+  storeName: StoreNameType,
   options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
 ) => {
   const pipe =
@@ -21,7 +22,7 @@ const createMiddleware = <
       n: StoreNameType,
       s: CreateStoreConfigType<StoresDataType[StoreNameType]>
     ): CreateStoreConfigType<StoresDataType[StoreNameType]> =>
-      fns.length ? fns.reduce((c, f) => f(n, c), s) : s
+      fns.length ? fns.reduce((c, f) => f(n, c, options), s) : s
 
   let middlewares: ZfyMiddlewareType<StoresDataType, StoreNameType>[] = []
 
@@ -29,8 +30,11 @@ const createMiddleware = <
     middlewares = [...middlewares, logger]
   }
   if (options && 'persist' in options) {
-    validateConfigForPersistence()
-    middlewares = [...middlewares, persist]
+    validateOptionsForPersistence(storeName, options)
+    middlewares = [
+      ...middlewares,
+      persist as ZfyMiddlewareType<StoresDataType, StoreNameType>,
+    ]
   }
   if (
     options &&

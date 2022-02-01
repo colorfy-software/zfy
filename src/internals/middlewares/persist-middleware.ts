@@ -1,33 +1,33 @@
-import type { CreateStoreConfigType, StoreType } from '../../types'
-import { getConfig } from '../config'
+import type { StoreApi } from 'zustand'
+import { persist, StoreApiWithPersist } from 'zustand/middleware'
 
-const persist =
-  <
-    StoresDataType extends Record<string, any>,
-    StoreNameType extends keyof StoresDataType
-  >(
-    store: StoreNameType,
-    config: CreateStoreConfigType<StoresDataType[StoreNameType]>
-  ): CreateStoreConfigType<StoresDataType[StoreNameType]> =>
-  (set, get, api): StoreType<StoresDataType[StoreNameType]> =>
-    config(
-      async (args) => {
-        set(args)
+import type {
+  StoreType,
+  CreateStoreConfigType,
+  CreateStoreOptionsType,
+} from '../../types'
 
-        const { persistKey, serialize, storage } = getConfig()
+const middleware = <
+  StoresDataType extends Record<string, any>,
+  StoreNameType extends keyof StoresDataType
+>(
+  storeName: StoreNameType,
+  config: CreateStoreConfigType<StoresDataType[StoreNameType]>,
+  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
+): CreateStoreConfigType<
+  StoresDataType[StoreNameType],
+  StoreApi<StoreType<StoresDataType[StoreNameType]>> &
+    StoreApiWithPersist<StoreType<StoresDataType[StoreNameType]>>
+> => {
+  const {
+    name = storeName as Exclude<StoreNameType, number | symbol>,
+    ...rest
+  } = options?.persist ?? {}
 
-        if (typeof serialize === 'function') {
-          Promise.resolve(serialize({ data: get().data })).then((data) => {
-            storage?.setItem(`@${persistKey}Store:${store}`, data)
-          })
-        } else {
-          storage?.setItem(`@${persistKey}Store:${store}`, {
-            data: get().data,
-          })
-        }
-      },
-      get,
-      api
-    )
+  return persist((set, get, api) => config(set, get, api), {
+    name,
+    ...(rest ? rest : {}),
+  })
+}
 
-export default persist
+export default middleware

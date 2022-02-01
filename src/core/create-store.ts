@@ -8,12 +8,12 @@ import type {
   CreateStoreOptionsType,
 } from '../types'
 
-import { validateCreateStore } from '../internals/validation'
+import { validateCreateStore } from '../internals/validations'
 import createMiddlewares from '../internals/middlewares/create-middlewares'
 
 /**
  * Function that creates and returns a zustand store.
- * @param name - `string`— Name of the store.
+ * @param storeName - `string`— Name of the store.
  * @param data - `Record<string, any>`— Initial data of the store.
  * @param options - `CreateStoreOptionsType`— Optional. Config to use for store setup.
  */
@@ -21,30 +21,30 @@ export default function <
   StoresDataType extends Record<string, any>,
   StoreNameType extends keyof StoresDataType = keyof StoresDataType
 >(
-  name: StoreNameType,
+  storeName: StoreNameType,
   data: StoresDataType[StoreNameType],
   options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
 ): CreateStoreType<StoresDataType[StoreNameType]> {
-  validateCreateStore<StoresDataType, StoreNameType>({ name, data, options })
+  validateCreateStore<StoresDataType, StoreNameType>({
+    storeName,
+    data,
+    options,
+  })
 
-  const applyMiddlewares = createMiddlewares(options) as (
+  const applyMiddlewares = createMiddlewares(storeName, options) as (
     n: StoreNameType,
     s: CreateStoreConfigType<StoresDataType[StoreNameType]>
   ) => CreateStoreConfigType<StoresDataType[StoreNameType]>
 
   return create<StoreType<StoresDataType[StoreNameType]>>(
-    applyMiddlewares(name, (set) => ({
+    applyMiddlewares(storeName, (set) => ({
       data,
       update: (producer): void =>
         set(
-          produce((currentStore: StoreType<StoresDataType[StoreNameType]>) => ({
-            ...currentStore,
-            data: producer(currentStore.data),
-          }))
+          produce((currentStore: StoreType<StoresDataType[StoreNameType]>) => {
+            producer(currentStore.data)
+          })
         ),
-      rehydrate: (persistedData: {
-        data: StoresDataType[StoreNameType]
-      }): void => set(persistedData),
       reset: (): void => set({ data }),
     }))
   )

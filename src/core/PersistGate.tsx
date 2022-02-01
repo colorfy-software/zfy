@@ -3,7 +3,7 @@ import React, { useEffect, memo } from 'react'
 import type { CreateStoreType } from '../types'
 
 import useRehydrate from './use-rehydrate'
-import { validatePersistGate } from '../internals/validation'
+import { validatePersistGate } from '../internals/validations'
 
 interface PropsType<StoresType> {
   children: JSX.Element | JSX.Element[] | (() => JSX.Element)
