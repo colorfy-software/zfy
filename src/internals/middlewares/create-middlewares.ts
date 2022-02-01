@@ -20,8 +20,8 @@ const createMiddleware = <
     (...fns: ZfyMiddlewareType<StoresDataType, StoreNameType>[]) =>
     (
       n: StoreNameType,
-      s: CreateStoreConfigType<StoresDataType[StoreNameType]>
-    ): CreateStoreConfigType<StoresDataType[StoreNameType]> =>
+      s: CreateStoreConfigType<StoresDataType, StoreNameType>
+    ): CreateStoreConfigType<StoresDataType, StoreNameType> =>
       fns.length ? fns.reduce((c, f) => f(n, c, options), s) : s
 
   let middlewares: ZfyMiddlewareType<StoresDataType, StoreNameType>[] = []

@@ -12,42 +12,36 @@ export type ZfyMiddlewareType<
   StoresDataType extends Record<string, any>,
   StoreNameType extends keyof StoresDataType,
   StoreApiType extends StoreApi<
-    StoreType<StoresDataType[StoreNameType]>
-  > = StoreApi<StoreType<StoresDataType[StoreNameType]>>
+    StoreType<StoresDataType, StoreNameType>
+  > = StoreApi<StoreType<StoresDataType, StoreNameType>>
 > = (
   storeName: StoreNameType,
-  config: CreateStoreConfigType<StoresDataType[StoreNameType]>,
+  config: CreateStoreConfigType<StoresDataType, StoreNameType>,
   options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-) => CreateStoreConfigType<StoresDataType[StoreNameType], StoreApiType>
+) => CreateStoreConfigType<StoresDataType, StoreNameType, StoreApiType>
 
-export type QueueTaskType<
-  StoresDataType extends Record<string, any> = Record<string, any>,
-  StoreNameType extends keyof StoresDataType = keyof StoresDataType
-> = {
-  set: SetState<StoreType<StoresDataType[StoreNameType]>>
-  producer: (store: StoreType<StoresDataType[StoreNameType]>) => void
-}
-
-export type QueueType<
-  StoresDataType extends Record<string, any> = Record<string, any>,
-  StoreNameType extends keyof StoresDataType = keyof StoresDataType
-> = QueueTaskType<StoresDataType, StoreNameType>[]
-
-export interface StoreType<StoreDataType> extends State {
-  data: StoreDataType
+export interface StoreType<
+  StoresDataType extends Record<string, any>,
+  StoreNameType extends keyof StoresDataType
+> extends State {
+  name: StoreNameType
+  data: StoresDataType[StoreNameType]
   reset: () => void
-  update: (producer: (data: StoreType<StoreDataType>['data']) => void) => void
+  update: (
+    producer: (data: StoreType<StoresDataType, StoreNameType>['data']) => void
+  ) => void
 }
 
 export type CreateStoreConfigType<
-  StoreDataType,
-  StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
-    StoreType<StoreDataType>
-  >
+  StoresDataType extends Record<string, any>,
+  StoreNameType extends keyof StoresDataType,
+  StoreApiType extends StoreApi<
+    StoreType<StoresDataType, StoreNameType>
+  > = StoreApi<StoreType<StoresDataType, StoreNameType>>
 > = StateCreator<
-  StoreType<StoreDataType>,
-  SetState<StoreType<StoreDataType>>,
-  GetState<StoreType<StoreDataType>>,
+  StoreType<StoresDataType, StoreNameType>,
+  SetState<StoreType<StoresDataType, StoreNameType>>,
+  GetState<StoreType<StoresDataType, StoreNameType>>,
   StoreApiType
 >
 
@@ -57,20 +51,23 @@ export interface CreateStoreOptionsType<
 > {
   log?: boolean
   persist?: Omit<
-    PersistOptions<StoreType<StoresDataType>>,
+    PersistOptions<StoreType<StoresDataType, StoreNameType>>,
     'blacklist' | 'whitelist'
   > & {
     name: StoreNameType
     getStorage: Exclude<
-      PersistOptions<StoreType<StoresDataType>>['getStorage'],
+      PersistOptions<StoreType<StoresDataType, StoreNameType>>['getStorage'],
       undefined
     >
   }
   customMiddlewares?: ZfyMiddlewareType<StoresDataType, StoreNameType>[]
 }
 
-export type CreateStoreType<StoreDataType> = UseBoundStore<
-  StoreType<StoreDataType>
-> & {
-  persist?: StoreApiWithPersist<StoreType<StoreDataType>>['persist']
+export type CreateStoreType<
+  StoresDataType extends Record<string, any>,
+  StoreNameType extends keyof StoresDataType
+> = UseBoundStore<StoreType<StoresDataType, StoreNameType>> & {
+  persist?: StoreApiWithPersist<
+    StoreType<StoresDataType, StoreNameType>
+  >['persist']
 }

@@ -24,7 +24,7 @@ export default function <
   storeName: StoreNameType,
   data: StoresDataType[StoreNameType],
   options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-): CreateStoreType<StoresDataType[StoreNameType]> {
+): CreateStoreType<StoresDataType, StoreNameType> {
   validateCreateStore<StoresDataType, StoreNameType>({
     storeName,
     data,
@@ -33,15 +33,16 @@ export default function <
 
   const applyMiddlewares = createMiddlewares(storeName, options) as (
     n: StoreNameType,
-    s: CreateStoreConfigType<StoresDataType[StoreNameType]>
-  ) => CreateStoreConfigType<StoresDataType[StoreNameType]>
+    s: CreateStoreConfigType<StoresDataType, StoreNameType>
+  ) => CreateStoreConfigType<StoresDataType, StoreNameType>
 
-  return create<StoreType<StoresDataType[StoreNameType]>>(
+  return create<StoreType<StoresDataType, StoreNameType>>(
     applyMiddlewares(storeName, (set) => ({
+      name: storeName,
       data,
       update: (producer): void =>
         set(
-          produce((currentStore: StoreType<StoresDataType[StoreNameType]>) => {
+          produce((currentStore: StoreType<StoresDataType, StoreNameType>) => {
             producer(currentStore.data)
           })
         ),

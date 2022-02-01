@@ -2,21 +2,17 @@ import type { CreateStoreType, CreateStoreOptionsType } from '../types'
 
 import invariant from './invariant'
 
-export function validatePersistGate(
-  stores: Record<string, CreateStoreType<any>>
-) {
+export function validatePersistGate(stores: CreateStoreType<any, any>[]) {
   invariant(
-    Object.keys(stores).length,
-    "You must provide an object of your zustand stores to <PersisGate /> 'stores' prop."
+    Array.isArray(stores) && stores.length,
+    "You must provide an array of your zustand stores to <PersisGate /> 'stores' prop."
   )
 }
 
-export function validateUseRehydrate(
-  stores: Record<string, CreateStoreType<any>>
-) {
+export function validateUseRehydrate(stores: CreateStoreType<any, any>[]) {
   invariant(
-    Object.keys(stores).length,
-    'You must provide an object of your zustand stores to useRehydrate().'
+    Array.isArray(stores) && stores.length,
+    'You must provide an array of your zustand stores to useRehydrate().'
   )
 }
 

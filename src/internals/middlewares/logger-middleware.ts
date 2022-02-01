@@ -10,10 +10,10 @@ const middleware =
     StoreNameType extends keyof StoresDataType
   >(
     storeName: StoreNameType,
-    config: CreateStoreConfigType<StoresDataType[StoreNameType]>,
+    config: CreateStoreConfigType<StoresDataType, StoreNameType>,
     options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-  ): CreateStoreConfigType<StoresDataType[StoreNameType]> =>
-  (set, get, api): StoreType<StoresDataType[StoreNameType]> =>
+  ): CreateStoreConfigType<StoresDataType, StoreNameType> =>
+  (set, get, api): StoreType<StoresDataType, StoreNameType> =>
     config(
       (args) => {
         const prevState = get().data
@@ -38,7 +38,7 @@ const middleware =
           console.debug(
             '%cpayload',
             'font-weight:bold; color: #27A3F7',
-            (payload as StoreType<StoresDataType[StoreNameType]>).data
+            (payload as StoreType<StoresDataType, StoreNameType>).data
           )
           console.debug(
             '%cnewState',

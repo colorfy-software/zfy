@@ -12,12 +12,13 @@ const middleware = <
   StoreNameType extends keyof StoresDataType
 >(
   storeName: StoreNameType,
-  config: CreateStoreConfigType<StoresDataType[StoreNameType]>,
+  config: CreateStoreConfigType<StoresDataType, StoreNameType>,
   options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
 ): CreateStoreConfigType<
-  StoresDataType[StoreNameType],
-  StoreApi<StoreType<StoresDataType[StoreNameType]>> &
-    StoreApiWithPersist<StoreType<StoresDataType[StoreNameType]>>
+  StoresDataType,
+  StoreNameType,
+  StoreApi<StoreType<StoresDataType, StoreNameType>> &
+    StoreApiWithPersist<StoreType<StoresDataType, StoreNameType>>
 > => {
   const {
     name = storeName as Exclude<StoreNameType, number | symbol>,
