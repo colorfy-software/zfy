@@ -73,7 +73,7 @@
   "peerDependencies": {
     "immer": ">=7",
     "react": ">=16.8.3",
-    "zustand": ">= 3 < 4"
+    "zustand": ">= 3.6.0 < 4"
   },
   "resolutions": {
     "@typescript-eslint/eslint-plugin": "^5.1.0",
