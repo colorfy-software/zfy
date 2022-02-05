@@ -6,8 +6,8 @@ import { validateUseRehydrate } from '../internals/validations'
 
 /**
  * Hooks that rehydrates persisted stores on app launch.
- * @param stores - `Array<CreateStoreType<any, any>>`— Array containing all the zustand stores to rehydrate.
- * @returns `boolean`— A boolean indicating whether rehydration process is done.
+ * @param stores - Array containing all the zustand stores to rehydrate.
+ * @returns A boolean indicating whether rehydration process is done.
  */
 export default function <StoresType extends CreateStoreType<any, any>[]>(
   stores: StoresType

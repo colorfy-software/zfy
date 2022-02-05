@@ -38,8 +38,8 @@ export default function <
 
   return create<StoreType<StoresDataType, StoreNameType>>(
     applyMiddlewares(storeName, (set) => ({
-      name: storeName,
       data,
+      name: storeName,
       update: (producer): void =>
         set(
           produce((currentStore: StoreType<StoresDataType, StoreNameType>) => {

@@ -18,15 +18,15 @@ const userStore = createStore<StoresDataType, 'user'>('user', initialState, {
           console.debug('❌ User rehydration error', error)
         } else {
           console.debug(
-            `💧 User rehydration done:  ${JSON.stringify(state.data, null, 2)}`
+            `💧 User rehydration done:  ${JSON.stringify(state?.data, null, 2)}`
           )
         }
       }
     },
     getStorage: () => ({
       getItem: (name) => storage.getString(name) ?? null,
-      setItem: async (name, value) => storage.set(name, value),
-      removeItem: async (name) => storage.delete(name),
+      setItem: (name, value) => storage.set(name, value),
+      removeItem: (name) => storage.delete(name),
     }),
   },
 })
