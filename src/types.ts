@@ -5,6 +5,7 @@ import type {
   StoreApi,
   StateCreator,
   UseBoundStore,
+  EqualityChecker,
 } from 'zustand'
 import type { PersistOptions, StoreApiWithPersist } from 'zustand/middleware'
 
@@ -52,9 +53,9 @@ export interface CreateStoreOptionsType<
   log?: boolean
   persist?: Omit<
     PersistOptions<StoreType<StoresDataType, StoreNameType>>,
-    'blacklist' | 'whitelist'
+    'name' | 'blacklist' | 'whitelist'
   > & {
-    name: StoreNameType
+    name?: Exclude<StoreNameType, number | symbol>
     getStorage: Exclude<
       PersistOptions<StoreType<StoresDataType, StoreNameType>>['getStorage'],
       undefined
@@ -70,4 +71,30 @@ export type CreateStoreType<
   persist?: StoreApiWithPersist<
     StoreType<StoresDataType, StoreNameType>
   >['persist']
+}
+
+export type InitStoresResetOptionsType<
+  StoresDataType extends Record<string, any>
+> = {
+  omit?: Array<keyof StoresDataType>
+}
+
+export type InitStoresType<StoresDataType extends Record<string, any>> = {
+  stores: {
+    [StoreNameType in keyof StoresDataType]: CreateStoreType<
+      StoresDataType,
+      StoreNameType
+    >
+  } & {
+    rehydrate: () => Promise<boolean>
+    reset: (options?: InitStoresResetOptionsType<StoresDataType>) => void
+  }
+  useStores: <
+    StoreNameType extends Exclude<keyof StoresDataType, number | symbol>,
+    Output
+  >(
+    storeName: StoreNameType,
+    selector: (data: StoresDataType[StoreNameType]) => Output,
+    equalityFn?: EqualityChecker<Output>
+  ) => Output
 }

@@ -2,6 +2,13 @@ import type { CreateStoreType, CreateStoreOptionsType } from '../types'
 
 import invariant from './invariant'
 
+export function validateInitStores(stores: CreateStoreType<any, any>[]) {
+  invariant(
+    Array.isArray(stores) && stores.length,
+    'You must provide an array of your zustand stores to useRehydrate().'
+  )
+}
+
 export function validatePersistGate(stores: CreateStoreType<any, any>[]) {
   invariant(
     Array.isArray(stores) && stores.length,
