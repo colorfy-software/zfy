@@ -13,26 +13,24 @@ import type {
   StoreApiWithSubscribeWithSelector,
 } from 'zustand/middleware'
 
-export type ZfyMiddlewareType<
-  StoreDataType extends unknown,
-  StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
-    StoreType<StoreDataType>
-  >
-> = (
-  storeName: string,
-  config: CreateStoreConfigType<StoreDataType>,
-  options?: CreateStoreOptionsType<StoreDataType>
-) => CreateStoreConfigType<StoreDataType, StoreApiType>
-
-export interface StoreType<StoreDataType extends unknown> extends State {
+export interface StoreType<StoreDataType> extends State {
   name: string
   data: StoreDataType
   reset: () => void
   update: (producer: (data: StoreDataType) => void) => void
 }
 
+export type CreateStoreType<StoreDataType> = UseBoundStore<
+  StoreType<StoreDataType>
+> & {
+  persist?: StoreApiWithPersist<StoreType<StoreDataType>>['persist']
+  subscribeWithSelector?: StoreApiWithSubscribeWithSelector<
+    StoreType<StoreDataType>
+  >['subscribe']
+}
+
 export type CreateStoreConfigType<
-  StoreDataType extends unknown,
+  StoreDataType,
   StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
     StoreType<StoreDataType>
   >
@@ -43,7 +41,7 @@ export type CreateStoreConfigType<
   StoreApiType
 >
 
-export interface CreateStoreOptionsType<StoreDataType extends unknown> {
+export interface CreateStoreOptionsType<StoreDataType> {
   log?: boolean
   subscribe?: boolean
   persist?: Omit<
@@ -59,16 +57,18 @@ export interface CreateStoreOptionsType<StoreDataType extends unknown> {
   customMiddlewares?: ZfyMiddlewareType<StoreDataType>[]
 }
 
-export type CreateStoreType<StoreDataType extends unknown> = UseBoundStore<
-  StoreType<StoreDataType>
-> & {
-  persist?: StoreApiWithPersist<StoreType<StoreDataType>>['persist']
-  subscribeWithSelector?: StoreApiWithSubscribeWithSelector<
+export type ZfyMiddlewareType<
+  StoreDataType,
+  StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
     StoreType<StoreDataType>
-  >['subscribe']
-}
+  >
+> = (
+  storeName: string,
+  config: CreateStoreConfigType<StoreDataType>,
+  options?: CreateStoreOptionsType<StoreDataType>
+) => CreateStoreConfigType<StoreDataType, StoreApiType>
 
-export type InitStoresResetOptionsType<StoreDataType extends unknown> = {
+export type InitStoresResetOptionsType<StoreDataType> = {
   omit?: Array<keyof StoreDataType>
 }
 

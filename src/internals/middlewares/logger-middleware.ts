@@ -5,7 +5,7 @@ import type {
 } from '../../types'
 
 const middleware =
-  <StoreDataType extends unknown>(
+  <StoreDataType>(
     storeName: string,
     config: CreateStoreConfigType<StoreDataType>,
     options?: CreateStoreOptionsType<StoreDataType>

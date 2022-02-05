@@ -10,7 +10,7 @@ import subscribe from './subscribe-middleware'
 
 import { validateOptionsForPersistence } from '../validations'
 
-const createMiddleware = <StoreDataType extends unknown>(
+const createMiddleware = <StoreDataType>(
   storeName: string,
   options?: CreateStoreOptionsType<StoreDataType>
 ) => {

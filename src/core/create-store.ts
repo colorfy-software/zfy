@@ -17,7 +17,7 @@ import createMiddlewares from '../internals/middlewares/create-middlewares'
  * @param data - Initial data of the store.
  * @param options - Optional. Config to use for store setup.
  */
-export default function <StoreDataType extends unknown>(
+export default function <StoreDataType>(
   storeName: string,
   data: StoreDataType,
   options?: CreateStoreOptionsType<StoreDataType>

@@ -15,7 +15,7 @@ import type {
 
 // NOTE: Adapted from https://github.com/pmndrs/zustand/blob/main/src/middleware/subscribeWithSelector.ts.
 const middleware =
-  <StoreDataType extends unknown>(
+  <StoreDataType>(
     _: string,
     config: CreateStoreConfigType<StoreDataType>,
     __?: CreateStoreOptionsType<StoreDataType>

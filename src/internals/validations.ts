@@ -23,7 +23,7 @@ export function validateUseRehydrate(stores: CreateStoreType<any>[]) {
   )
 }
 
-export function validateCreateStore<StoreDataType extends unknown>({
+export function validateCreateStore<StoreDataType>({
   storeName,
   data,
   options,
@@ -61,7 +61,7 @@ export function validateCreateStore<StoreDataType extends unknown>({
   }
 }
 
-export function validateOptionsForPersistence<StoreDataType extends unknown>(
+export function validateOptionsForPersistence<StoreDataType>(
   storeName: string,
   options: CreateStoreOptionsType<StoreDataType>
 ) {
