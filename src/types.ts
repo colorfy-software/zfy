@@ -7,7 +7,11 @@ import type {
   UseBoundStore,
   EqualityChecker,
 } from 'zustand'
-import type { PersistOptions, StoreApiWithPersist } from 'zustand/middleware'
+import type {
+  PersistOptions,
+  StoreApiWithPersist,
+  StoreApiWithSubscribeWithSelector,
+} from 'zustand/middleware'
 
 export type ZfyMiddlewareType<
   StoresDataType extends Record<string, any>,
@@ -51,6 +55,7 @@ export interface CreateStoreOptionsType<
   StoreNameType extends keyof StoresDataType
 > {
   log?: boolean
+  subscribe?: boolean
   persist?: Omit<
     PersistOptions<StoreType<StoresDataType, StoreNameType>>,
     'name' | 'blacklist' | 'whitelist'
@@ -71,6 +76,9 @@ export type CreateStoreType<
   persist?: StoreApiWithPersist<
     StoreType<StoresDataType, StoreNameType>
   >['persist']
+  subscribeWithSelector?: StoreApiWithSubscribeWithSelector<
+    StoreType<StoresDataType, StoreNameType>
+  >['subscribe']
 }
 
 export type InitStoresResetOptionsType<

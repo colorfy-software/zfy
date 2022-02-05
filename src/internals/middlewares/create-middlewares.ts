@@ -6,6 +6,7 @@ import type {
 
 import logger from './logger-middleware'
 import persist from './persist-middleware'
+import subscribe from './subscribe-middleware'
 
 import { validateOptionsForPersistence } from '../validations'
 
@@ -28,6 +29,12 @@ const createMiddleware = <
 
   if (options?.log) {
     middlewares = [...middlewares, logger]
+  }
+  if (options?.subscribe) {
+    middlewares = [
+      ...middlewares,
+      subscribe as unknown as ZfyMiddlewareType<StoresDataType, StoreNameType>,
+    ]
   }
   if (options && 'persist' in options) {
     validateOptionsForPersistence(storeName, options)

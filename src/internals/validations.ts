@@ -52,6 +52,13 @@ export function validateCreateStore<
     `You need to provide a boolean to ${storeName}'s createStore() options.log, ${options?.log} is not a boolean.`
   )
 
+  invariant(
+    !options ||
+      (typeof options === 'object' && options.subscribe === undefined) ||
+      typeof options.subscribe === 'boolean',
+    `You need to provide a boolean to ${storeName}'s createStore() options.subscribe, ${options?.subscribe} is not a boolean.`
+  )
+
   if (options?.persist) {
     validateOptionsForPersistence(storeName, options)
   }
