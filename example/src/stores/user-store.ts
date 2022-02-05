@@ -7,7 +7,7 @@ export const initialState = {} as StoresDataType['user']
 
 export const storage = new MMKV({ id: 'user' })
 
-const userStore = createStore<StoresDataType, 'user'>('user', initialState, {
+const userStore = createStore<StoresDataType['user']>('user', initialState, {
   log: true,
   persist: {
     name: 'user',

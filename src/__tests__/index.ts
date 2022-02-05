@@ -56,7 +56,7 @@ export const assertStoreContent = ({
   expectedName = 'jest',
   expectedData,
 }: {
-  store: CreateStoreType<any, any>
+  store: CreateStoreType<any>
   expectedName?: string
   expectedData: any
 }) => {

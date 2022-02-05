@@ -7,23 +7,16 @@ import type {
   CreateStoreOptionsType,
 } from '../../types'
 
-const middleware = <
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType
->(
-  storeName: StoreNameType,
-  config: CreateStoreConfigType<StoresDataType, StoreNameType>,
-  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
+const middleware = <StoreDataType extends unknown>(
+  storeName: string,
+  config: CreateStoreConfigType<StoreDataType>,
+  options?: CreateStoreOptionsType<StoreDataType>
 ): CreateStoreConfigType<
-  StoresDataType,
-  StoreNameType,
-  StoreApi<StoreType<StoresDataType, StoreNameType>> &
-    StoreApiWithPersist<StoreType<StoresDataType, StoreNameType>>
+  StoreDataType,
+  StoreApi<StoreType<StoreDataType>> &
+    StoreApiWithPersist<StoreType<StoreDataType>>
 > => {
-  const {
-    name = storeName as Exclude<StoreNameType, number | symbol>,
-    ...rest
-  } = options?.persist ?? {}
+  const { name = storeName, ...rest } = options?.persist ?? {}
 
   return persist((set, get, api) => config(set, get, api), {
     name,

@@ -13,36 +13,33 @@ import createMiddlewares from '../internals/middlewares/create-middlewares'
 
 /**
  * Function that creates and returns a zustand store.
- * @param storeName - `string`— Name of the store.
- * @param data - `Record<string, any>`— Initial data of the store.
- * @param options - `CreateStoreOptionsType`— Optional. Config to use for store setup.
+ * @param storeName - Name of the store.
+ * @param data - Initial data of the store.
+ * @param options - Optional. Config to use for store setup.
  */
-export default function <
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType = keyof StoresDataType
->(
-  storeName: StoreNameType,
-  data: StoresDataType[StoreNameType],
-  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-): CreateStoreType<StoresDataType, StoreNameType> {
-  validateCreateStore<StoresDataType, StoreNameType>({
+export default function <StoreDataType extends unknown>(
+  storeName: string,
+  data: StoreDataType,
+  options?: CreateStoreOptionsType<StoreDataType>
+): CreateStoreType<StoreDataType> {
+  validateCreateStore<StoreDataType>({
     storeName,
     data,
     options,
   })
 
   const applyMiddlewares = createMiddlewares(storeName, options) as (
-    n: StoreNameType,
-    s: CreateStoreConfigType<StoresDataType, StoreNameType>
-  ) => CreateStoreConfigType<StoresDataType, StoreNameType>
+    n: string,
+    s: CreateStoreConfigType<StoreDataType>
+  ) => CreateStoreConfigType<StoreDataType>
 
-  return create<StoreType<StoresDataType, StoreNameType>>(
+  return create<StoreType<StoreDataType>>(
     applyMiddlewares(storeName, (set) => ({
       data,
       name: storeName,
       update: (producer): void =>
         set(
-          produce((currentStore: StoreType<StoresDataType, StoreNameType>) => {
+          produce((currentStore: StoreType<StoreDataType>) => {
             producer(currentStore.data)
           })
         ),

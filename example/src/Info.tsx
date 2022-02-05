@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
+import { initStores } from '@colorfy-software/zfy'
 import { ScrollView, StyleSheet, Text, TextInput } from 'react-native'
+
+import type { StoresDataType } from './types'
 
 import appStore from './stores/app-store'
 import userStore from './stores/user-store'
 
+const { useStores } = initStores<StoresDataType>([appStore, userStore])
+
 const Info = (): JSX.Element => {
   const name = userStore(({ data }) => data.name)
-  const backgroundColor = appStore(({ data }) => data.backgroundColor)
+  const backgroundColor = useStores('app', (data) => data.backgroundColor)
 
   const [formName, setFormName] = useState(name)
   const [formBackgroundColor, setFormBackgroundColor] =

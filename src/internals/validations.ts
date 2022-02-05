@@ -2,38 +2,35 @@ import type { CreateStoreType, CreateStoreOptionsType } from '../types'
 
 import invariant from './invariant'
 
-export function validateInitStores(stores: CreateStoreType<any, any>[]) {
+export function validateInitStores(stores: CreateStoreType<any>[]) {
   invariant(
     Array.isArray(stores) && stores.length,
     'You must provide an array of your zustand stores to useRehydrate().'
   )
 }
 
-export function validatePersistGate(stores: CreateStoreType<any, any>[]) {
+export function validatePersistGate(stores: CreateStoreType<any>[]) {
   invariant(
     Array.isArray(stores) && stores.length,
     "You must provide an array of your zustand stores to <PersisGate /> 'stores' prop."
   )
 }
 
-export function validateUseRehydrate(stores: CreateStoreType<any, any>[]) {
+export function validateUseRehydrate(stores: CreateStoreType<any>[]) {
   invariant(
     Array.isArray(stores) && stores.length,
     'You must provide an array of your zustand stores to useRehydrate().'
   )
 }
 
-export function validateCreateStore<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType = keyof StoresDataType
->({
+export function validateCreateStore<StoreDataType extends unknown>({
   storeName,
   data,
   options,
 }: {
-  storeName: StoreNameType
+  storeName: string
   data: any
-  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
+  options?: CreateStoreOptionsType<StoreDataType>
 }) {
   invariant(
     storeName && typeof storeName === 'string',
@@ -64,12 +61,9 @@ export function validateCreateStore<
   }
 }
 
-export function validateOptionsForPersistence<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType
->(
-  storeName: StoreNameType,
-  options: CreateStoreOptionsType<StoresDataType, StoreNameType>
+export function validateOptionsForPersistence<StoreDataType extends unknown>(
+  storeName: string,
+  options: CreateStoreOptionsType<StoreDataType>
 ) {
   invariant(
     !options ||

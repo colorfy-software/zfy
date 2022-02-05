@@ -15,12 +15,8 @@ import { validateInitStores } from '../internals/validations'
  * @returns Data from the store returned by the selector function.
  */
 export default function <
-  StoresDataType extends Record<string, any>,
-  StoresType extends CreateStoreType<
-    StoresDataType,
-    // FIXME: Fix union overlap
-    keyof StoresDataType
-  >[] = CreateStoreType<StoresDataType, keyof StoresDataType>[]
+  StoresDataType,
+  StoresType extends CreateStoreType<any>[] = CreateStoreType<any>[]
 >(stores: StoresType): InitStoresType<StoresDataType> {
   validateInitStores(stores)
 
@@ -43,7 +39,8 @@ export default function <
     stores
       .filter(
         (store) =>
-          !options?.omit || !options.omit.includes(store.getState().name)
+          !options?.omit ||
+          !options.omit.includes(store.getState().name as keyof StoresDataType)
       )
       .forEach((store) => store.getState().reset())
 
@@ -54,7 +51,7 @@ export default function <
   ) => {
     const store = stores.find(
       (item) => item.getState().name === storeName
-    ) as CreateStoreType<StoresDataType, keyof StoresDataType>
+    ) as CreateStoreType<StoresDataType>
 
     invariant(
       store !== undefined,

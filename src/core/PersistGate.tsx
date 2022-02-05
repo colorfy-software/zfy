@@ -17,7 +17,7 @@ interface PropsType<StoresType> {
  * @prop children -  React element to render once rehydration is completed.
  * @prop loader - Optional. Loader component to display.
  */
-const PersistGate = <StoresType extends CreateStoreType<any, any>[]>({
+const PersistGate = <StoresType extends CreateStoreType<any>[]>({
   stores,
   loader,
   children,

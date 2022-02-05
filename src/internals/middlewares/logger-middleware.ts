@@ -5,15 +5,12 @@ import type {
 } from '../../types'
 
 const middleware =
-  <
-    StoresDataType extends Record<string, any>,
-    StoreNameType extends keyof StoresDataType
-  >(
-    storeName: StoreNameType,
-    config: CreateStoreConfigType<StoresDataType, StoreNameType>,
-    options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-  ): CreateStoreConfigType<StoresDataType, StoreNameType> =>
-  (set, get, api): StoreType<StoresDataType, StoreNameType> =>
+  <StoreDataType extends unknown>(
+    storeName: string,
+    config: CreateStoreConfigType<StoreDataType>,
+    options?: CreateStoreOptionsType<StoreDataType>
+  ): CreateStoreConfigType<StoreDataType> =>
+  (set, get, api): StoreType<StoreDataType> =>
     config(
       (args) => {
         const prevState = get().data
@@ -38,7 +35,7 @@ const middleware =
           console.debug(
             '%cpayload',
             'font-weight:bold; color: #27A3F7',
-            (payload as StoreType<StoresDataType, StoreNameType>).data
+            (payload as StoreType<StoreDataType>).data
           )
           console.debug(
             '%cnewState',

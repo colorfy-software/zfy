@@ -9,7 +9,7 @@ import { validateUseRehydrate } from '../internals/validations'
  * @param stores - Array containing all the zustand stores to rehydrate.
  * @returns A boolean indicating whether rehydration process is done.
  */
-export default function <StoresType extends CreateStoreType<any, any>[]>(
+export default function <StoresType extends CreateStoreType<any>[]>(
   stores: StoresType
 ): boolean {
   const storesNames = stores.map((store) => store.getState().name)

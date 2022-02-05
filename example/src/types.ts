@@ -1,5 +1,3 @@
-export type StoresNameType = keyof StoresDataType
-
 /**********************************
  *
  *              APP

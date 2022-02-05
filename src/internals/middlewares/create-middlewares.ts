@@ -10,22 +10,19 @@ import subscribe from './subscribe-middleware'
 
 import { validateOptionsForPersistence } from '../validations'
 
-const createMiddleware = <
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType = keyof StoresDataType
->(
-  storeName: StoreNameType,
-  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
+const createMiddleware = <StoreDataType extends unknown>(
+  storeName: string,
+  options?: CreateStoreOptionsType<StoreDataType>
 ) => {
   const pipe =
-    (...fns: ZfyMiddlewareType<StoresDataType, StoreNameType>[]) =>
+    (...fns: ZfyMiddlewareType<StoreDataType>[]) =>
     (
-      n: StoreNameType,
-      s: CreateStoreConfigType<StoresDataType, StoreNameType>
-    ): CreateStoreConfigType<StoresDataType, StoreNameType> =>
+      n: string,
+      s: CreateStoreConfigType<StoreDataType>
+    ): CreateStoreConfigType<StoreDataType> =>
       fns.length ? fns.reduce((c, f) => f(n, c, options), s) : s
 
-  let middlewares: ZfyMiddlewareType<StoresDataType, StoreNameType>[] = []
+  let middlewares: ZfyMiddlewareType<StoreDataType>[] = []
 
   if (options?.log) {
     middlewares = [...middlewares, logger]
@@ -33,14 +30,14 @@ const createMiddleware = <
   if (options?.subscribe) {
     middlewares = [
       ...middlewares,
-      subscribe as unknown as ZfyMiddlewareType<StoresDataType, StoreNameType>,
+      subscribe as unknown as ZfyMiddlewareType<StoreDataType>,
     ]
   }
   if (options && 'persist' in options) {
     validateOptionsForPersistence(storeName, options)
     middlewares = [
       ...middlewares,
-      persist as unknown as ZfyMiddlewareType<StoresDataType, StoreNameType>,
+      persist as unknown as ZfyMiddlewareType<StoreDataType>,
     ]
   }
   if (

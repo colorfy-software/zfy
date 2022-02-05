@@ -3,7 +3,7 @@ import type { ZfyMiddlewareType } from '../types'
 import { data, SyncStorage, rehydratedData, assertStoreContent } from '.'
 import createStore from '../core/create-store'
 
-type StoresDataType = { jest: typeof data }
+type StoreDataType = typeof data
 
 describe('🐣 Core > createStore():', () => {
   it('validates config', () => {
@@ -79,7 +79,7 @@ describe('🐣 Core > createStore():', () => {
       "You need to provide a boolean to jest's createStore() options.subscribe, 1 is not a boolean."
     )
 
-    const store = createStore<StoresDataType, 'jest'>('jest', data, {
+    const store = createStore<StoreDataType>('jest', data, {
       subscribe: true,
     })
     const unsubscribe = store.subscribeWithSelector?.(
@@ -125,7 +125,7 @@ describe('🐣 Core > createStore():', () => {
     const consoleGroup = jest.spyOn(console, 'group').mockImplementation()
     const consoleDebug = jest.spyOn(console, 'debug').mockImplementation()
 
-    const store = createStore<StoresDataType, 'jest'>('jest', data, {
+    const store = createStore<StoreDataType>('jest', data, {
       persist: { getStorage: () => SyncStorage },
       subscribe: true,
       log: true,
@@ -179,7 +179,7 @@ describe('🐣 Core > createStore():', () => {
 
   it('works with customMiddlewares provided', () => {
     const fn = jest.fn()
-    const customMiddleware: ZfyMiddlewareType<StoresDataType, 'jest'> =
+    const customMiddleware: ZfyMiddlewareType<StoreDataType> =
       (store, config) => (set, get, api) =>
         config(
           (args) => {

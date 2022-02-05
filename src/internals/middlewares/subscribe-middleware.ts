@@ -15,31 +15,24 @@ import type {
 
 // NOTE: Adapted from https://github.com/pmndrs/zustand/blob/main/src/middleware/subscribeWithSelector.ts.
 const middleware =
-  <
-    StoresDataType extends Record<string, any>,
-    StoreNameType extends keyof StoresDataType
-  >(
-    _: StoreNameType,
-    config: CreateStoreConfigType<StoresDataType, StoreNameType>,
-    __?: CreateStoreOptionsType<StoresDataType, StoreNameType>
+  <StoreDataType extends unknown>(
+    _: string,
+    config: CreateStoreConfigType<StoreDataType>,
+    __?: CreateStoreOptionsType<StoreDataType>
   ): CreateStoreConfigType<
-    StoresDataType,
-    StoreNameType,
-    StoreApi<StoreType<StoresDataType, StoreNameType>> & {
+    StoreDataType,
+    StoreApi<StoreType<StoreDataType>> & {
       subscribeWithSelector: StoreApiWithSubscribeWithSelector<
-        StoreType<StoresDataType, StoreNameType>
+        StoreType<StoreDataType>
       >['subscribe']
     }
   > =>
-  (set, get, api): StoreType<StoresDataType, StoreNameType> => {
+  (set, get, api): StoreType<StoreDataType> => {
     const deprecatedSubscribe = api.subscribe
 
     // @ts-expect-error FIXME: Deprecated subscribe signature missing.
     api.subscribeWithSelector = <StateSlice>(
-      selector: StateSelector<
-        StoreType<StoresDataType, StoreNameType>,
-        StateSlice
-      >,
+      selector: StateSelector<StoreType<StoreDataType>, StateSlice>,
       providedListener: StateSliceListener<StateSlice>,
       options?:
         | {
@@ -48,8 +41,7 @@ const middleware =
           }
         | undefined
     ) => {
-      let listener: StateListener<StoreType<StoresDataType, StoreNameType>> =
-        selector
+      let listener: StateListener<StoreType<StoreDataType>> = selector
 
       if (providedListener) {
         const equalityFn = options?.equalityFn || Object.is

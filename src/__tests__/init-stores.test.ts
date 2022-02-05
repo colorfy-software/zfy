@@ -21,9 +21,9 @@ describe('🚀 Core > initStores():', () => {
       'You must provide an array of your zustand stores to useRehydrate().'
     )
 
-    const storeA = createStore<StoresDataType, 'jestA'>('jestA', dataA)
-    const storeB = createStore<StoresDataType, 'jestB'>('jestB', dataB)
-    // @ts-expect-error FIXME: Fix union overlap
+    const storeA = createStore<StoresDataType['jestA']>('jestA', dataA)
+    const storeB = createStore<StoresDataType['jestB']>('jestB', dataB)
+
     const { useStores } = initStores<StoresDataType>([storeA, storeB])
 
     expect(() => {
@@ -40,13 +40,13 @@ describe('🚀 Core > initStores():', () => {
     const onRehydrationDone = jest.fn()
     const onRehydrateStorageSpy = jest.fn(() => onRehydrationDone)
 
-    const storeA = createStore<StoresDataType, 'jestA'>('jestA', dataA, {
+    const storeA = createStore<StoresDataType['jestA']>('jestA', dataA, {
       persist: {
         getStorage: () => SyncStorage,
         onRehydrateStorage: onRehydrateStorageSpy,
       },
     })
-    const storeB = createStore<StoresDataType, 'jestB'>('jestB', dataB, {
+    const storeB = createStore<StoresDataType['jestB']>('jestB', dataB, {
       persist: {
         getStorage: () => SyncStorage,
       },
@@ -54,7 +54,6 @@ describe('🚀 Core > initStores():', () => {
 
     expect(onRehydrateStorageSpy).toHaveBeenCalledWith(undefined)
 
-    // @ts-expect-error FIXME: Fix union overlap
     const { stores } = initStores<StoresDataType>([storeA, storeB])
 
     const status = await stores.rehydrate()
@@ -71,10 +70,9 @@ describe('🚀 Core > initStores():', () => {
   })
 
   it('reset stores', async () => {
-    const storeA = createStore<StoresDataType, 'jestA'>('jestA', dataA)
-    const storeB = createStore<StoresDataType, 'jestB'>('jestB', dataB)
+    const storeA = createStore<StoresDataType['jestA']>('jestA', dataA)
+    const storeB = createStore<StoresDataType['jestB']>('jestB', dataB)
 
-    // @ts-expect-error FIXME: Fix union overlap
     const { stores } = initStores<StoresDataType>([storeA, storeB])
 
     expect(stores.jestA.getState().data).toEqual(dataA)
@@ -107,9 +105,8 @@ describe('🚀 Core > initStores():', () => {
   })
 
   it('returns stores', async () => {
-    const store = createStore<StoresDataType, 'jestA'>('jestA', dataA)
+    const store = createStore<StoresDataType['jestA']>('jestA', dataA)
 
-    // @ts-expect-error FIXME: Fix union overlap
     const { stores } = initStores<StoresDataType>([store])
 
     expect(stores.jestA.getState().data).toEqual(dataA)
@@ -120,10 +117,9 @@ describe('🚀 Core > initStores():', () => {
   })
 
   it('returns useStores', async () => {
-    const storeA = createStore<StoresDataType, 'jestA'>('jestA', dataA)
-    const storeB = createStore<StoresDataType, 'jestB'>('jestB', dataB)
+    const storeA = createStore<StoresDataType['jestA']>('jestA', dataA)
+    const storeB = createStore<StoresDataType['jestB']>('jestB', dataB)
 
-    // @ts-expect-error FIXME: Fix union overlap
     const { stores, useStores } = initStores<StoresDataType>([storeA, storeB])
 
     const { result } = renderHook(() =>

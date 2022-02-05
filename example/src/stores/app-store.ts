@@ -9,7 +9,7 @@ export const initialState: StoresDataType['app'] = {
 
 export const storage = new MMKV({ id: 'app' })
 
-export default createStore<StoresDataType, 'app'>('app', initialState, {
+export default createStore<StoresDataType['app']>('app', initialState, {
   log: true,
   persist: {
     onRehydrateStorage: () => {

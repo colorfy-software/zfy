@@ -14,93 +14,74 @@ import type {
 } from 'zustand/middleware'
 
 export type ZfyMiddlewareType<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType,
-  StoreApiType extends StoreApi<
-    StoreType<StoresDataType, StoreNameType>
-  > = StoreApi<StoreType<StoresDataType, StoreNameType>>
+  StoreDataType extends unknown,
+  StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
+    StoreType<StoreDataType>
+  >
 > = (
-  storeName: StoreNameType,
-  config: CreateStoreConfigType<StoresDataType, StoreNameType>,
-  options?: CreateStoreOptionsType<StoresDataType, StoreNameType>
-) => CreateStoreConfigType<StoresDataType, StoreNameType, StoreApiType>
+  storeName: string,
+  config: CreateStoreConfigType<StoreDataType>,
+  options?: CreateStoreOptionsType<StoreDataType>
+) => CreateStoreConfigType<StoreDataType, StoreApiType>
 
-export interface StoreType<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType
-> extends State {
-  name: StoreNameType
-  data: StoresDataType[StoreNameType]
+export interface StoreType<StoreDataType extends unknown> extends State {
+  name: string
+  data: StoreDataType
   reset: () => void
-  update: (
-    producer: (data: StoreType<StoresDataType, StoreNameType>['data']) => void
-  ) => void
+  update: (producer: (data: StoreDataType) => void) => void
 }
 
 export type CreateStoreConfigType<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType,
-  StoreApiType extends StoreApi<
-    StoreType<StoresDataType, StoreNameType>
-  > = StoreApi<StoreType<StoresDataType, StoreNameType>>
+  StoreDataType extends unknown,
+  StoreApiType extends StoreApi<StoreType<StoreDataType>> = StoreApi<
+    StoreType<StoreDataType>
+  >
 > = StateCreator<
-  StoreType<StoresDataType, StoreNameType>,
-  SetState<StoreType<StoresDataType, StoreNameType>>,
-  GetState<StoreType<StoresDataType, StoreNameType>>,
+  StoreType<StoreDataType>,
+  SetState<StoreType<StoreDataType>>,
+  GetState<StoreType<StoreDataType>>,
   StoreApiType
 >
 
-export interface CreateStoreOptionsType<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType
-> {
+export interface CreateStoreOptionsType<StoreDataType extends unknown> {
   log?: boolean
   subscribe?: boolean
   persist?: Omit<
-    PersistOptions<StoreType<StoresDataType, StoreNameType>>,
+    PersistOptions<StoreType<StoreDataType>>,
     'name' | 'blacklist' | 'whitelist'
   > & {
-    name?: Exclude<StoreNameType, number | symbol>
+    name?: string
     getStorage: Exclude<
-      PersistOptions<StoreType<StoresDataType, StoreNameType>>['getStorage'],
+      PersistOptions<StoreType<StoreDataType>>['getStorage'],
       undefined
     >
   }
-  customMiddlewares?: ZfyMiddlewareType<StoresDataType, StoreNameType>[]
+  customMiddlewares?: ZfyMiddlewareType<StoreDataType>[]
 }
 
-export type CreateStoreType<
-  StoresDataType extends Record<string, any>,
-  StoreNameType extends keyof StoresDataType
-> = UseBoundStore<StoreType<StoresDataType, StoreNameType>> & {
-  persist?: StoreApiWithPersist<
-    StoreType<StoresDataType, StoreNameType>
-  >['persist']
+export type CreateStoreType<StoreDataType extends unknown> = UseBoundStore<
+  StoreType<StoreDataType>
+> & {
+  persist?: StoreApiWithPersist<StoreType<StoreDataType>>['persist']
   subscribeWithSelector?: StoreApiWithSubscribeWithSelector<
-    StoreType<StoresDataType, StoreNameType>
+    StoreType<StoreDataType>
   >['subscribe']
 }
 
-export type InitStoresResetOptionsType<
-  StoresDataType extends Record<string, any>
-> = {
-  omit?: Array<keyof StoresDataType>
+export type InitStoresResetOptionsType<StoreDataType extends unknown> = {
+  omit?: Array<keyof StoreDataType>
 }
 
-export type InitStoresType<StoresDataType extends Record<string, any>> = {
+export type InitStoresType<StoresDataType> = {
   stores: {
     [StoreNameType in keyof StoresDataType]: CreateStoreType<
-      StoresDataType,
-      StoreNameType
+      StoresDataType[StoreNameType]
     >
   } & {
     rehydrate: () => Promise<boolean>
     reset: (options?: InitStoresResetOptionsType<StoresDataType>) => void
   }
-  useStores: <
-    StoreNameType extends Exclude<keyof StoresDataType, number | symbol>,
-    Output
-  >(
+  useStores: <StoreNameType extends keyof StoresDataType, Output>(
     storeName: StoreNameType,
     selector: (data: StoresDataType[StoreNameType]) => Output,
     equalityFn?: EqualityChecker<Output>

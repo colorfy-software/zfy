@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
-    "jsx": "react-native",
-    "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "importsNotUsedAsValues": "error",
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-native",
+    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noStrictGenericChecks": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext"
   }
 }
