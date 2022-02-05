@@ -33,7 +33,7 @@ const createMiddleware = <
     validateOptionsForPersistence(storeName, options)
     middlewares = [
       ...middlewares,
-      persist as ZfyMiddlewareType<StoresDataType, StoreNameType>,
+      persist as unknown as ZfyMiddlewareType<StoresDataType, StoreNameType>,
     ]
   }
   if (

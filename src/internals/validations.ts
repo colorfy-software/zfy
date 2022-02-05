@@ -49,7 +49,7 @@ export function validateCreateStore<
     !options ||
       (typeof options === 'object' && options.log === undefined) ||
       typeof options.log === 'boolean',
-    `You need to provide a boolean to ${storeName}'s createStore() options.log, ${typeof options?.log} is not a boolean.`
+    `You need to provide a boolean to ${storeName}'s createStore() options.log, ${options?.log} is not a boolean.`
   )
 
   if (options?.persist) {
@@ -64,6 +64,13 @@ export function validateOptionsForPersistence<
   storeName: StoreNameType,
   options: CreateStoreOptionsType<StoresDataType, StoreNameType>
 ) {
+  invariant(
+    !options ||
+      (typeof options === 'object' && options.persist === undefined) ||
+      Object.prototype.toString.call(options.persist) === '[object Object]',
+    `You need to provide an object to ${storeName}'s createStore() options.persist. ${options.persist} is not an object.`
+  )
+
   invariant(
     !options ||
       (typeof options === 'object' && options.persist === undefined) ||

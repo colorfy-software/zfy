@@ -82,7 +82,7 @@
   "jest": {
     "preset": "react-native",
     "testPathIgnorePatterns": [
-      "<rootDir>/src/__tests__/helpers.ts"
+      "<rootDir>/src/__tests__/index.ts"
     ],
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
