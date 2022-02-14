@@ -23,25 +23,25 @@
   </a>
 </p>
 
-# 🎯 Purpose
+## 🎯 Purpose
 
 [zustand](https://github.com/pmndrs/zustand) is a library that keeps state management as simple as you would have always loved it to be. zfy has been built on top of it to provide [a useful set of tools](https://colorfy-software.gitbook.io/zfy/#features) to make that experience even
 more delightful.
 
-# 🏗️ Installation
+## 🏗️ Installation
 
 ```sh
 yarn add @colorfy-software/zfy
 ```
 
-# 📚 Documentation
+## 📚 Documentation
 
 The doc is accessible at https://colorfy-software.gitbook.io/zfy.
 
 - The best way to learn is to follow the [guides](https://colorfy-software.gitbook.io/zfy/guides/creating-and-using-a-store). They will help you to get up and running in no time.
 - The [API reference](https://colorfy-software.gitbook.io/zfy/api/types) lists all public APIs.
 
-# 🤝 Contributing
+## 🤝 Contributing
 
 This library is a very opinionated approach to using zustand that the team uses at colorfy.
 
@@ -53,6 +53,6 @@ You can also consider doing so [_from the inside_](https://colorfy.me/team/) �
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-# 📰 License
+## 📰 License
 
 MIT
