@@ -28,7 +28,7 @@ describe('🚀 Core > initStores():', () => {
 
     expect(() => {
       // @ts-expect-error
-      renderHook(useStores('random', (jestA) => jestA.fileA))
+      renderHook(useStores('random', (data) => data.fileA))
     }).toThrow(
       `'random' is not a valid store name. Did you mean any of these: \n• jestA,\n• jestB`
     )
@@ -78,11 +78,11 @@ describe('🚀 Core > initStores():', () => {
     expect(stores.jestA.getState().data).toEqual(dataA)
     expect(stores.jestB.getState().data).toEqual(dataB)
 
-    stores.jestA.getState().update((jestA) => {
-      jestA.fileA = rehydratedDataA.fileA
+    stores.jestA.getState().update((data) => {
+      data.fileA = rehydratedDataA.fileA
     })
-    stores.jestB.getState().update((jestB) => {
-      jestB.fileB = rehydratedDataB.fileB
+    stores.jestB.getState().update((data) => {
+      data.fileB = rehydratedDataB.fileB
     })
 
     expect(stores.jestA.getState().data).toEqual(rehydratedDataA)
@@ -125,15 +125,15 @@ describe('🚀 Core > initStores():', () => {
     const { result } = renderHook(() =>
       useStores(
         'jestA',
-        (jestA) => jestA.fileA,
-        (prevState, newState) => prevState === newState
+        (data) => data.fileA,
+        (prevData, newData) => prevData === newData
       )
     )
     expect(result.current).toBe(dataA.fileA)
 
     act(() => {
-      stores.jestA.getState().update((jestA) => {
-        jestA.fileA = rehydratedDataA.fileA
+      stores.jestA.getState().update((data) => {
+        data.fileA = rehydratedDataA.fileA
       })
     })
     expect(result.current).toBe(rehydratedDataA.fileA)

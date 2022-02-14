@@ -9,10 +9,8 @@ import { validateInitStores } from '../internals/validations'
 
 /**
  * Hooks that let you consume data from any of the stores provided to `initStores()`.
- * @param storeName - Name of the store to use.
- * @param selector - A selector function that returns the data you want to access.
- * @param equalityFn - Optional. Equality checker function.
- * @returns Data from the store returned by the selector function.
+ * @param stores - Array of stores to use.
+ * @returns Array with your stores accessible in a object & a Hook to consume your stores data from within a React component.
  */
 export default function <
   StoresDataType,
