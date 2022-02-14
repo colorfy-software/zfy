@@ -180,11 +180,11 @@ describe('🐣 Core > createStore():', () => {
   it('works with customMiddlewares provided', () => {
     const fn = jest.fn()
     const customMiddleware: ZfyMiddlewareType<StoreDataType> =
-      (store, config) => (set, get, api) =>
+      (storeName, config) => (set, get, api) =>
         config(
           (args) => {
             set(args)
-            fn(store)
+            fn(storeName)
           },
           get,
           api

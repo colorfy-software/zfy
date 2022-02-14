@@ -18,7 +18,7 @@ const Loader = () => {
 
 export default function App() {
   return (
-    <PersistGate loader={<Loader />} stores={[app, user]}>
+    <PersistGate stores={[app, user]} loader={<Loader />}>
       <Info />
     </PersistGate>
   )
