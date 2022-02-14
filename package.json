@@ -34,12 +34,12 @@
     "type": "git",
     "url": "git+https://github.com/colorfy-software/zfy.git"
   },
-  "author": "Charles Mangwa <charlesmangwa@gmail.com> (https://github.com/CharlesMangwa)",
+  "author": "Charles Mangwa <charles.m@hey.com> (https://github.com/CharlesMangwa)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/colorfy-software/zfy/issues"
   },
-  "homepage": "https://github.com/colorfy-software/zfy#readme",
+  "homepage": "https://colorfy-software.gitbook.io/zfy",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
